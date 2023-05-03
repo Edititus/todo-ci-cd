@@ -1,5 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 
 name: Node.js CI
 
@@ -17,7 +16,6 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v3
@@ -28,3 +26,14 @@ jobs:
         cache: 'yarn'
     - run: yarn install
     - run: yarn test
+
+ deploy:
+   runs-on: ubuntu-latest
+  
+   steps:
+     - uses: actions/checkout@v3
+     - run: docker build -t ediomo/todo-ci-cd .
+     - run echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{secrets.DOCKERHUB_USERNAME }} --password-stdin
+     - run: docker push ediomo/todo-ci-cd
+
+     #  stdin stops the system from rembering your password
