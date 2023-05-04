@@ -1,5 +1,3 @@
-
-
 name: Node.js CI
 
 on:
@@ -27,13 +25,13 @@ jobs:
     - run: yarn install
     - run: yarn test
 
- deploy:
-   runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
   
-   steps:
-     - uses: actions/checkout@v3
-     - run: docker build -t ediomo/todo-ci-cd .
-     - run echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{secrets.DOCKERHUB_USERNAME }} --password-stdin
-     - run: docker push ediomo/todo-ci-cd
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker build -t ediomo/todo-ci-cd .
+      - run: echo "${{ secrets.DOCKERHUB_PASSWORD }}"| docker login -u ${{secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - run: docker push ediomo/todo-ci-cd
 
      #  stdin stops the system from rembering your password
