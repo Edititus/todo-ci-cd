@@ -31,7 +31,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: docker build -t ediomo/todo-ci-cd .
-      - run: echo "${{ secrets.DOCKERHUB_PASSWORD }}"| docker login -u ${{secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{secrets.DOCKERHUB_USERNAME }} --password-stdin -t
+      
       - run: docker push ediomo/todo-ci-cd
-
-     #  stdin stops the system from rembering your password
